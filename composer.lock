@@ -55,16 +55,16 @@
         },
         {
             "name": "avz-cmf/zaboy-rest",
-            "version": "1.0.2",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/avz-cmf/zaboy-rest.git",
-                "reference": "a9d64d774f20878bebadb65613ed24e7d11aa49c"
+                "reference": "473b7b4be38032ef51edbf1f660c865214c86d12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avz-cmf/zaboy-rest/zipball/a9d64d774f20878bebadb65613ed24e7d11aa49c",
-                "reference": "a9d64d774f20878bebadb65613ed24e7d11aa49c",
+                "url": "https://api.github.com/repos/avz-cmf/zaboy-rest/zipball/473b7b4be38032ef51edbf1f660c865214c86d12",
+                "reference": "473b7b4be38032ef51edbf1f660c865214c86d12",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "php",
                 "rest"
             ],
-            "time": "2016-02-10 15:34:10"
+            "time": "2016-02-11 20:37:49"
         },
         {
             "name": "container-interop/container-interop",
@@ -1154,16 +1154,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.22",
+            "version": "4.8.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "dfb11aa5236376b4fc63853cf746af39fe780e72"
+                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dfb11aa5236376b4fc63853cf746af39fe780e72",
-                "reference": "dfb11aa5236376b4fc63853cf746af39fe780e72",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6e351261f9cd33daf205a131a1ba61c6d33bd483",
+                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483",
                 "shasum": ""
             },
             "require": {
@@ -1222,7 +1222,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-02 09:01:21"
+            "time": "2016-02-11 14:56:33"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

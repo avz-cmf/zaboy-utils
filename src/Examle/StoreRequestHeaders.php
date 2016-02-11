@@ -6,19 +6,19 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-namespace zaboy\utils\Middleware;
+namespace zaboy\utils\Example;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use zaboy\rest\Middleware\StoreMiddleware;
 
 /**
- * REST store Middleware with Request Headers
+ * REST DbStore Middleware
  * 
  * @category   Utils
  * @package    Utils
  */
-class StoreRequestHeaders extends StoreMiddleware
+class DbStoreMiddleware extends StoreMiddleware
 {
     /**
      * @param ServerRequestInterface $request
