@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8' />
+        <title>The definitive Dojo 1.8 templated, dynamic, validating, internationalized form in a Dialog</title>
+        <link href='http://ajax.googleapis.com/ajax/libs/dojo/1.8.0/dijit/themes/nihilo/nihilo.css' media='all' rel='stylesheet' type='text/css'>
+        <script src='http://ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js'></script>
+    </head>
+    <body class='nihilo'>
+        <script>
+        require(
+            [
+                'lib/DefDialog',
+                'dojo/text!lib/templates/Content.html',
+                'dojo/i18n!lib/nls/resources',
+                'dijit/Dialog',
+                'dojo/domReady!'
+            ],
+            function (defdialog, template, resources, Dialog) {
+                new Dialog({
+                    content:new modul1({templateString:template, resources:resources}),
+                    title:resources.titleForDialog
+                }, 'dialog').show();
+            }
+        );
+        </script>
+        <div id='dialog'></div>
+    </body>
+</html>

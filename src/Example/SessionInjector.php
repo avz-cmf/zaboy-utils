@@ -44,19 +44,7 @@ class SessionInjector implements MiddlewareInterface
         $sessionCounter = $session->offsetGet('Session-Counter');
         $sessionCounter = isset($sessionCounter) ? $sessionCounter + 1 : 0;
         $session->offsetSet('Session-Counter', $sessionCounter);
-        
-        $responseBody = $request->getAttribute('Response-Body');
-        $isPrimaryKeyValue = null !== $request->getAttribute('Primary-Key-Value');
-        if ($isPrimaryKeyValue) {
-            $responseBody['Session-Counter'] = $sessionCounter;
-            $request = $request->withAttribute('Response-Body', $responseBody);             
-        }else{
-            foreach ($responseBody as $row) {
-                $row['Session-Counter'] = $sessionCounter;
-                $rowset[] = $row;
-                $request = $request->withAttribute('Response-Body', $rowset);                
-            }
-        }
+
 
         if ($next) {
             return $next($request, $response);
