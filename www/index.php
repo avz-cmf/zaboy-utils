@@ -1,45 +1,33 @@
 <?php
+
+// Define application environment
+if (getenv('APP_ENV') === 'dev') {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+}
+
 // Change to the project root, to simplify resolving paths
 chdir(dirname(__DIR__));
-
-// Setup autoloading
-require '/vendor/autoload.php';
-
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Diactoros\Server;
-use zaboy\rest\Pipes\Factory\RestPipeFactory;
-use zaboy\utils\Middleware;
-
-use Xiag\Rql\Parser\Lexer;
-use Xiag\Rql\Parser\Parser;
-use Xiag\Rql\Parser\ExpressionParser;
-use Xiag\Rql\Parser\TokenParserGroup;
-use Xiag\Rql\Parser\TokenParser\Query\GroupTokenParser;
-use Xiag\Rql\Parser\TokenParser\Query\Fiql;
-
+require 'vendor/autoload.php';
 $container = include 'config/container.php';
 
-$queryTokenParser = new TokenParserGroup();
-$queryTokenParser
-    ->addTokenParser(new GroupTokenParser($queryTokenParser))
-    ->addTokenParser(new Fiql\ArrayOperator\InTokenParser())
-    ->addTokenParser(new Fiql\ArrayOperator\OutTokenParser())
-    ->addTokenParser(new Fiql\ScalarOperator\EqTokenParser())
-    ->addTokenParser(new Fiql\ScalarOperator\NeTokenParser())
-    ->addTokenParser(new Fiql\ScalarOperator\LtTokenParser())
-    ->addTokenParser(new Fiql\ScalarOperator\GtTokenParser())
-    ->addTokenParser(new Fiql\ScalarOperator\LeTokenParser())
-    ->addTokenParser(new Fiql\ScalarOperator\GeTokenParser());
+use zaboy\utils\utils\HtmlParser\Simple as HtmlParserSimple;
+use zaboy\utils\Api\Gmail as ApiGmail;
 
-$parser = new Parser(new ExpressionParser());
-$parser->addTokenParser($queryTokenParser);
+$apiGmail = new ApiGmail();
+$list = $apiGmail->getMessagesList();
+//var_dump($apiGmail->getBodyTxt($list[8]));
+foreach ($list as $value) {
+    $txt = $apiGmail->getBodyHtml($value);
+    echo $txt[1];
+}
 
-$lexer = new Lexer();
 
-// ok
-$tokenStream = $lexer->tokenize('((a==true|b!=str)&c>=10&d=in=(1,value,null))');
-var_dump($parser->parse($tokenStream));
 
-// error
-$tokenStream = $lexer->tokenize('or(eq(a,true),ne(b,str))&gte(c,10)&in(d,(1,value,null))');
-var_dump($parser->parse($tokenStream));
+
+
+// Create a DOM object from a string
+//$htmlParserSimple = new HtmlParserSimple;
+//$html = HtmlParserSimple::strGetHtml('<html><body>Hello!</body></html>');
+//$html->dump();
+//var_dump($htmlParserSimple);
