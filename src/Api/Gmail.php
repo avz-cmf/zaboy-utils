@@ -9,9 +9,9 @@ use Google_Service_Gmail_MessagePart;
 /**
  *
  * time GMT
- * @see http://stackoverflow.com/questions/33912834/gmail-api-not-returning-correct-emails-compared-to-gmail-web-ui-for-date-queries/33919375#33919375
+ * @see http://stackoverflow.com/questions/25427670/how-to-use-gmail-api-query-filter-for-datetime?noredirect=1&lq=1
  * @see http://stackoverflow.com/questions/33552890/why-does-search-in-gmail-api-return-different-result-than-search-in-gmail-websit
- * 
+ *
  * @see http://stackoverflow.com/search?q=PHP%2C+Gmail+API+read
  * @see https://github.com/adevait/GmailPHP/blob/master/examples/messages.php
  * @see https://developers.google.com/gmail/api/quickstart/php#step_1_install_the_google_client_library
@@ -21,8 +21,7 @@ class Gmail
 
     //const APPLICATION_NAME = 'Gmail API PHP Quickstart';
     const CREDENTIALS_PATH = '~/.credentials/gmail-php-quickstart.json';
-
-    //const CLIENT_SECRET_PATH = 'www/cfg/client_secret.json';
+    const CLIENT_SECRET_PATH = 'www/cfg/client_secret.json';
 
     /**
      *
@@ -57,7 +56,7 @@ class Gmail
         $client = new Google_Client();
         //$client->setApplicationName(static::APPLICATION_NAME);
         //$client->setScopes(static::SCOPES);
-        //$client->setAuthConfig(static::CLIENT_SECRET_PATH);
+        $client->setAuthConfig(static::CLIENT_SECRET_PATH);
         //$client->setAccessType('offline');
         // Load previously authorized credentials from a file.
         $credentialsPath = self::expandHomeDirectory(static::CREDENTIALS_PATH);

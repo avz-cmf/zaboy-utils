@@ -5,6 +5,9 @@ namespace zaboy\utils\DataStore;
 use zaboy\rest\DataStore\DbTable;
 use Zend\Db\TableGateway\TableGateway;
 use zaboy\utils\Api\Gmail as ApiGmail;
+use zaboy\utils\Json\Coder as JsonCoder;
+use Zend\Db\Adapter\AdapterInterface;
+use zaboy\res\Di\InsideConstruct;
 
 /**
  *
@@ -34,9 +37,18 @@ class Email extends DbTable
      */
     protected $apiEmail;
 
-    public function __construct(ApiGmail $apiEmail)
+    /**
+     *
+     * @var AdapterInterface
+     */
+    protected $emailDbAdapter;
+
+    public function __construct(ApiGmail $apiEmail, $emailDbAdapter = null)
     {
-        $dbTable = new TableGateway(static::TABLE_NAME);
+        //set $this->emailDbAdapter as $cotainer->get('emailDbAdapter');
+        InsideConstruct::initServices();
+
+        $dbTable = new TableGateway(static::TABLE_NAME, $this->emailDbAdapter);
         parent::__construct($dbTable);
         $this->apiEmail = $apiEmail;
     }
@@ -47,10 +59,11 @@ class Email extends DbTable
 
         $item[self::MESSAGE_ID] = $messageId;
         $item[self:: SUBJECT] = $this->apiEmail->getSubject($message);
-        $item[self:: SENDING_TIME];
-        $item[self:: BODY_HTML] = $this->apiEmail->getBodyHtml($message);
-        $item[self:: BODY_TXT] = $this->apiEmail->getBodyTxt($message);
-        $item[self:: HEADERS] = $this->apiEmail->getHeader($message);
+        $item[self:: SENDING_TIME] = strtotime($this->apiEmail->getDate($message)) + 8 * 60 * 60;
+        $item[self:: BODY_HTML] = implode(' ', $this->apiEmail->getBodyHtml($message));
+        $item[self:: BODY_TXT] = implode(' ', $this->apiEmail->getBodyTxt($message));
+        $item[self:: HEADERS] = JsonCoder::jsonEncode($this->apiEmail->getHeader($message));
+        $this->create($item, true);
     }
 
 }

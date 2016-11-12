@@ -2,7 +2,7 @@
 
 namespace zaboy\utils;
 
-class UTCTime
+class UtcTime
 {
 
     const WITHOUT_MICROSECONDS = 0;
@@ -15,7 +15,7 @@ class UTCTime
      * @return int|double
      */
 
-    public static function getUTCTimestamp($precision = self::WITHOUT_MICROSECONDS)
+    public static function getUtcTimestamp($precision = self::WITHOUT_MICROSECONDS)
     {
         return round(microtime(1) - date('Z'), $precision);
     }

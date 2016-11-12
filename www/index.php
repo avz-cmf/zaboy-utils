@@ -13,14 +13,19 @@ $container = include 'config/container.php';
 
 use zaboy\utils\utils\HtmlParser\Simple as HtmlParserSimple;
 use zaboy\utils\Api\Gmail as ApiGmail;
+use zaboy\utils\DataStore\Email;
 
 $apiGmail = new ApiGmail();
+$dataStore = new Email($apiGmail);
 $list = $apiGmail->getMessagesList();
+
 //var_dump($apiGmail->getBodyTxt($list[8]));
 foreach ($list as $value) {
-    $txt = $apiGmail->getBodyHtml($value);
-    echo $txt[1];
+    $dataStore->addMessage($value);
 }
+exit;
+
+//$dataStore->addMessage($list[0]);
 
 
 
