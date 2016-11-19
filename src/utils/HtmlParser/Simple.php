@@ -27,7 +27,7 @@ class Simple extends simple_html_dom
 
         parent::__construct(null, $lowercase, $forceTagsClosed, $target_charset, $stripRN, $defaultBRText, $defaultSpanText);
         if (empty($str) || strlen($str) > MAX_FILE_SIZE) {
-            throw new \RuntimeException('Wrong $str param. Strlen = ' . $str ? strlen($str) : 0);
+            throw new \RuntimeException('Wrong $str param. Strlen = ' . ($str ? strlen($str) : 0));
         }
 
         $this->load($str, $lowercase, $stripRN);

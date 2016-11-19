@@ -98,24 +98,43 @@ class Gmail
         return str_replace('~', realpath($homeDirectory), $path);
     }
 
+    /**
+     *
+     * @see https://support.google.com/mail/answer/7190?hl=en
+     * @see http://www.technostall.com/how-to-use-gmail-search-box/
+     * @see from:someuser@example.com
+     * @see $opt_param['q'] = 'filename:(jpg OR png OR gif)'
+     * @see $opt_param['q'] = 'subject:"reservation request"';
+     * @todo limit,offset, query
+     * @return array
+     */
     public function getMessagesList()
     {
+
         return $this->messagesList ? $this->messagesList : $this->setMessagesList();
     }
 
     public function setMessagesList()
     {
-        $nextPageToken = null;
+        $list = $this->queryMessagesList();
+        $this->messagesList = $list;
+        return $list;
+    }
+
+    public function queryMessagesList($q = null)
+    {
+        $optParams = $q ? ['q' => $q] : [];
+        $optParams['maxResults'] = 1000; // Return Only 1000 Messages
+        $optParams['labelIds'] = 'INBOX'; // Only show messages in Inbox
         $list = [];
         do {
-            $optParams = $nextPageToken ? ['pageToken' => $nextPageToken] : [];
-            $optParams['maxResults'] = 1000; // Return Only 1000 Messages
-            $optParams['labelIds'] = 'INBOX'; // Only show messages in Inbox
+            if (isset($nextPageToken)) {
+                $optParams['pageToken'] = $nextPageToken;
+            }
             $messages = $this->googleService->users_messages->listUsersMessages('me', $optParams);
             $list = $messages->getMessages() ? array_merge($list, $messages->getMessages()) : $list;
             $nextPageToken = $messages->getNextPageToken();
         } while (!is_null($nextPageToken));
-        $this->messagesList = $list;
         return $list;
     }
 

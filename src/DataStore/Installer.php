@@ -57,13 +57,13 @@ class Installer
                 'field_type' => 'Varchar',
                 'field_params' => [
                     'length' => 4094,
-                    'nullable' => false
+                    'nullable' => true
                 ]
             ],
             Email::SENDING_TIME => [
                 'field_type' => 'Integer',
                 'field_params' => [
-                    'nullable' => false
+                    'nullable' => true
                 ]
             ],
             Email::BODY_HTML => [
@@ -85,6 +85,13 @@ class Installer
                 'field_params' => [
                     'length' => 65000,
                     'nullable' => true
+                ]
+            ],
+            Email::STATUS => [
+                'field_type' => 'Varchar',
+                'field_params' => [
+                    'length' => 16,
+                    'nullable' => false
                 ]
             ],
         ];

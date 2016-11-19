@@ -30,6 +30,10 @@ class Email extends DbTable
     const BODY_HTML = 'body_html';
     const BODY_TXT = 'body_txt';
     const HEADERS = 'headers';
+    const STATUS = 'status';
+    //
+    const STATUS_IS_PARSED = 'PARSED';
+    const STATUS_IS_NOT_PARSED = 'NOT PARSED';
 
     /**
      *
@@ -43,27 +47,52 @@ class Email extends DbTable
      */
     protected $emailDbAdapter;
 
-    public function __construct(ApiGmail $apiEmail, $emailDbAdapter = null)
+    public function __construct($emailDbAdapter = null)
     {
         //set $this->emailDbAdapter as $cotainer->get('emailDbAdapter');
         InsideConstruct::initServices();
 
         $dbTable = new TableGateway(static::TABLE_NAME, $this->emailDbAdapter);
         parent::__construct($dbTable);
+        $this->apiEmail = new ApiGmail;
+    }
+
+    public function getApiGmail()
+    {
+        return $this->apiEmail;
+    }
+
+    public function setApiGmail(ApiGmail $apiEmail)
+    {
         $this->apiEmail = $apiEmail;
     }
 
-    public function addMessage($message)
+    public function addMessageData($message)
     {
         $messageId = is_object($message) ? $message->getId() : $message;
 
         $item[self::MESSAGE_ID] = $messageId;
-        $item[self:: SUBJECT] = $this->apiEmail->getSubject($message);
-        $item[self:: SENDING_TIME] = strtotime($this->apiEmail->getDate($message)) + 8 * 60 * 60;
-        $item[self:: BODY_HTML] = implode(' ', $this->apiEmail->getBodyHtml($message));
-        $item[self:: BODY_TXT] = implode(' ', $this->apiEmail->getBodyTxt($message));
-        $item[self:: HEADERS] = JsonCoder::jsonEncode($this->apiEmail->getHeader($message));
-        $this->create($item, true);
+        $item[self::SUBJECT] = $this->apiEmail->getSubject($message);
+        $item[self::SENDING_TIME] = strtotime($this->apiEmail->getDate($message)) + 8 * 60 * 60;
+
+        $bodyHtml = $this->apiEmail->getBodyHtml($message);
+        $item[self::BODY_HTML] = is_array($bodyHtml) ? implode(' ', $bodyHtml) : $bodyHtml;
+
+        $bodyTxt = $this->apiEmail->getBodyTxt($message);
+        $item[self::BODY_TXT] = is_array($bodyTxt) ? implode(' ', $bodyTxt) : $bodyTxt;
+
+        $item[self::HEADERS] = JsonCoder::jsonEncode($this->apiEmail->getHeader($message));
+        $item[self::STATUS] = self::STATUS_IS_NOT_PARSED;
+        return $this->create($item, true);
+    }
+
+    public function addMessageId($message)
+    {
+        $messageId = is_object($message) ? $message->getId() : $message;
+
+        $item[self::MESSAGE_ID] = $messageId;
+        $item[self::STATUS] = self::STATUS_IS_NOT_PARSED;
+        return $this->create($item, true);
     }
 
 }

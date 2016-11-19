@@ -21,6 +21,11 @@ return [
     'services' => [
         'abstract_factories' => [
             'Zend\Db\Adapter\AdapterAbstractServiceFactory',
-        ]
+        ],
+        'aliases' => [
+            //this 'callback' is service name in url
+            'emailDbAdapter' => getenv('APP_ENV') === 'production' ? 'db' : 'testDb',
+            'rockyMountainDbAdapter' => getenv('APP_ENV') === 'production' ? 'db' : 'testDb',
+        ],
     ],
 ];
